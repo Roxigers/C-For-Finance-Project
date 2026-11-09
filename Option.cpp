@@ -1,6 +1,7 @@
 #include "Option.h"
 
-Option::Option(double expiry) : _expiry(expiry) {}
+Option::Option(double expiry) : _expiry(expiry) {
+}
 
 double Option::getExpiry() const {
     return _expiry;
