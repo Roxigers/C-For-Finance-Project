@@ -1,4 +1,3 @@
-
 #include "CallOption.h"
 #include <algorithm>
 
