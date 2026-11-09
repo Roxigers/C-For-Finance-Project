@@ -1,12 +1,10 @@
 #include "BlackScholesPricer.h"
 #include <cmath>
  
-// Fonction de repartition de la loi normale N(0,1)
 double normalCDF(double x) {
     return 0.5 * std::erfc(-x / std::sqrt(2.0));
 }
  
-// Densite de la loi normale N(0,1)
 double normalPDF(double x) {
     return std::exp(-0.5 * x * x) / std::sqrt(2.0 * M_PI);
 }
