@@ -1,5 +1,4 @@
-#ifndef PUTOPTION_H
-#define PUTOPTION_H
+#pragma once
 
 #include "EuropeanVanillaOption.h"
 
@@ -10,5 +9,3 @@ public:
     double payoff(double z) const override;
     optionType GetOptionType() const override;
 };
-
-#endif 
