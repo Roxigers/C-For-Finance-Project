@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "EuropeanVanillaOption.h"
@@ -8,6 +7,5 @@ public:
     CallOption(double expiry, double strike);
 
     double payoff(double z) const override;
-
     optionType GetOptionType() const override;
 };
