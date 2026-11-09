@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "Option.h"
@@ -13,6 +12,8 @@ private:
     double _strike;
 
     friend class BlackScholesPricer;
+    friend class CallOption;
+    friend class PutOption;
 
 public:
     EuropeanVanillaOption(double expiry, double strike);
