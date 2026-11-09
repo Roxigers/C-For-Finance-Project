@@ -1,8 +1,8 @@
 #pragma once
 
-#include "EuropeanVanillaOption.h""
+#include "EuropeanVanillaOption.h"
 
-class BlackScholesPricer{
+class BlackScholesPricer {
 private:
     EuropeanVanillaOption* _option;
     double _assetPrice;
@@ -10,10 +10,9 @@ private:
     double _volatility;
 
 public:
-    BlackScholesPricer(EuropeanVanillaOption* option,
-                    double assetPrice,
-                    double interestRate,
-                    double volatility);
+    BlackScholesPricer(EuropeanVanillaOption* option, double asset_price,
+                       double interest_rate, double volatility);
+
     double operator()() const;
     double delta() const;
-}
+};
