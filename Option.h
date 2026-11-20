@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 class Option {
 private:
     double _expiry;
@@ -10,4 +12,6 @@ public:
 
     double getExpiry() const;
     virtual double payoff(double z) const = 0;
+    virtual double payoffPath(std::vector<double> path) const;
+    virtual bool isAsianOption() const;
 };
