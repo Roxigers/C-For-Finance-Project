@@ -21,9 +21,15 @@ CRRPricer::CRRPricer(Option* option, int depth, double asset_price,
 void CRRPricer::compute() {
     double q = (_interestRate - _down) / (_up - _down);
 
+    // S(N,0) = S0 * (1+D)^N
+    double S = _assetPrice;
+    for (int k = 0; k < _depth; k++)
+        S = S * (1 + _down);
+
+    // A maturite : H(N,i) = h(S(N,i)), et S(N,i+1) = S(N,i) * (1+U)/(1+D)
     for (int i = 0; i <= _depth; i++) {
-        double S = _assetPrice * std::pow(1 + _up, i) * std::pow(1 + _down, _depth - i);
         _tree.setNode(_depth, i, _option->payoff(S));
+        S = S * (1 + _up) / (1 + _down);
     }
 
     for (int n = _depth - 1; n >= 0; n--) {
@@ -45,14 +51,23 @@ double CRRPricer::get(int n, int i) {
 double CRRPricer::operator()(bool closed_form) {
     if (closed_form) {
         double q = (_interestRate - _down) / (_up - _down);
+
+        // S(N,0) = S0 * (1+D)^N  et  (1+R)^N
+        double S = _assetPrice;
+        double discount = 1;
+        for (int k = 0; k < _depth; k++) {
+            S = S * (1 + _down);
+            discount = discount * (1 + _interestRate);
+        }
+
         double sum = 0;
         for (int i = 0; i <= _depth; i++) {
             double logC = std::lgamma(_depth + 1) - std::lgamma(i + 1) - std::lgamma(_depth - i + 1);
             double proba = std::exp(logC + i * std::log(q) + (_depth - i) * std::log(1 - q));
-            double S = _assetPrice * std::pow(1 + _up, i) * std::pow(1 + _down, _depth - i);
             sum += proba * _option->payoff(S);
+            S = S * (1 + _up) / (1 + _down);
         }
-        return sum / std::pow(1 + _interestRate, _depth);
+        return sum / discount;
     }
 
     if (!_computed)
