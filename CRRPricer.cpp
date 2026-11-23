@@ -4,6 +4,9 @@
 
 CRRPricer::CRRPricer(Option* option, int depth, double asset_price,
                      double up, double down, double interest_rate) {
+    if (option->isAsianOption())
+        throw std::invalid_argument("CRRPricer : pas d'option asiatique");
+
     if (!(down < interest_rate && interest_rate < up))
         throw std::invalid_argument("Arbitrage : il faut D < R < U");
 
